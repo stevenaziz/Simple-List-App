@@ -11,12 +11,14 @@ app.use(express.static("./Client"));
 app.use(express.json());
 
 app.get("/api", async (req,res) => {
-  const [data] = fm.ReadData;
-  res.status(200).send(data);
+  const data = await fm.ReadData;
+  res.status(200);
+  res.write(JSON.stringify(data));
+  res.send();
 })
 
 app.post("/api", async (req,res) => {
-  const [data] = fm.ReadData;
+  const data = await fm.ReadData;
   data[data.length] = JSON.parse(req.body);
   fm.WriteData(data);
   res.status(200).send();
@@ -28,7 +30,7 @@ app.all("*", (req,res) => {
 });
 
 const appName = "My List";
-const port = 5000;
+const port = 8030;
 app.listen(port, () => {
   console.log(`App ${appName} is running on port ${port}`);
 })
