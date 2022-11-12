@@ -25,16 +25,19 @@ function ShowList() {
 }
 
 async function GetList() {
-
+  theList = await http.get("/api").json();
+  WriteList();
 }
 
 async function WriteList() {
-
+  ShowList();
 }
 
 /* Listener Functions */
 async function httpPost(e) {
-
+  await http.post("/api", input.value)
+  theList[theList.length] = input.value;
+  WriteList();
 }
 
 function httpDelete(e) {
