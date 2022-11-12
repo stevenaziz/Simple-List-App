@@ -11,7 +11,8 @@ app.use(express.static("./Client"));
 app.use(express.json());
 
 app.get("/api", async (req,res) => {
-
+  const [data] = fm.ReadData;
+  res.status(200).send(data);
 })
 
 app.post("/api", async (req,res) => {
