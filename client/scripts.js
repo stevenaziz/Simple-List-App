@@ -25,7 +25,7 @@ function ShowList() {
 }
 
 async function GetList() {
-  theList = await http.get("/api").json();
+  theList = await http.get("/api");
   WriteList();
 }
 
