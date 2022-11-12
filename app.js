@@ -18,7 +18,7 @@ app.post("/api", async (req,res) => {
   const [data] = fm.ReadData;
   data[data.length] = JSON.parse(req.body);
   fm.WriteData(data);
-  res.status(200).send(data);
+  res.status(200).send();
 })
 
 // page not found route
