@@ -1,9 +1,10 @@
-const fsPromises = require("fs/promises");
+const fs = require("fs");
+const fsPromises = require("fs").promises;
 
 async function ReadData() {
   try {
     const items = await fsPromises.readFile('./listdata.json','utf-8');
-    const listItems =  items.split('\n');
+    listItems =  JSON.parse(items);
     return listItems;
   } catch (error) {
     console.log(error);
@@ -12,7 +13,7 @@ async function ReadData() {
 
 async function WriteData(dataOut) {
   try {
-    fsPromises.writeFile('./listdata.json', JSON.stringify(dataOut));
+    fsPromises.writeFile('./listdata.json', dataOut);
   } catch (error) {
     console.log(error);
   }

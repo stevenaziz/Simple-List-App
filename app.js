@@ -16,9 +16,9 @@ app.get("/api", async (req,res) => {
 })
 
 app.post("/api", async (req,res) => {
-  const data = await fm.ReadData();
-  data[data.length] = JSON.parse(req.body);
-  fm.WriteData(data);
+  let data = await fm.ReadData();
+  data[data.length] = String(req.body);
+  await fm.WriteData(JSON.stringify(data));
   res.status(200).send();
 })
 

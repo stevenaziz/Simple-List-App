@@ -26,15 +26,21 @@ function ShowList() {
 
 async function GetList() {
   theList = await http.get("/api");
-  WriteList();
 }
 
-async function WriteList() {
+function WriteList() {
   ShowList();
 }
 
 /* Listener Functions */
 async function httpPost(e) {
+  if (input.value == "") {
+    formAlert.innerText = "Please enter a valid input.";
+    setTimeout(() => {
+      formAlert.innerText = "";
+    }, 3000);
+    return;
+  }
   await http.post("/api", input.value)
   theList[theList.length] = input.value;
   WriteList();
