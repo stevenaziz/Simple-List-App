@@ -24,11 +24,13 @@ function ShowList() {
   result.innerHTML = output;
 }
 
+// Gets the data as an array from server and modifies HTML to show it
 async function GetList() {
   theList = await http.get("/api");
   ShowList();
 }
 
+// Sends a POST request to the server to rewrite the data and waits for a response before updating HTML with new data
 async function WriteList() {
   await http.post("/api", theList);
   ShowList();
@@ -36,36 +38,36 @@ async function WriteList() {
 
 /* Listener Functions */
 async function httpPost(e) {
-  e.preventDefault();
-  if (input.value == "") {
+  e.preventDefault(); // Prevent the browser from creating its own request to the server
+  if (input.value == "") { // If there is no input, prompt user for input and return
     formAlert.innerText = "Please enter a valid input.";
     setTimeout(() => {
       formAlert.innerText = "";
     }, 2000);
     return;
   }
-  theList[theList.length] = input.value;
-  await WriteList();
-  input.value = "";
+  theList[theList.length] = input.value; // Add data to POST to array
+  await WriteList(); // Send new array to server for POST
+  input.value = ""; // Clear input field
 }
 
 async function httpDelete(e) {
-  e.preventDefault();
-  if (input.value == "") {
+  e.preventDefault(); // Prevent the browser from creating its own request to the server
+  if (input.value == "") { // If there is no input, prompt user for input and return
     formAlert.innerText = "Please enter a valid input.";
     setTimeout(() => {
       formAlert.innerText = "";
     }, 2000);
     return;
   }
-  theListOrigLength = theList.length;
-  for (let i = 0; i < theList.length; i++) {
+  theListOrigLength = theList.length; // Take note of the length of the array before beginning delete
+  for (let i = 0; i < theList.length; i++) { // Iterate through array and delete any entry that matches search query
     if (theList[i] == input.value) {
-      theList.splice(i, 1);
-      i--;
+      theList.splice(i, 1); // Remove one entry from array at position i
+      i--; // Roll i back if an entry is deleted so that the entry that takes its place is checked, also
     }
   }
-  if (theListOrigLength == theList.length) {
+  if (theListOrigLength == theList.length) { // If the array's original length is the same as the array's length now then no elements were deleted -> search query was invalid
     formAlert.innerText = "The value you entered does not exist. Please try again.";
     input.value = "";
     setTimeout(() => {
@@ -73,8 +75,8 @@ async function httpDelete(e) {
     }, 2000);
     return;
   }
-  await WriteList();
-  input.value = "";
+  await WriteList(); // With the updated array now completed, wait for POST request to be sent to server
+  input.value = ""; // Clear input field
 }
 
 // Loading functions
