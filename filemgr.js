@@ -4,8 +4,7 @@ const fsPromises = require("fs").promises;
 async function ReadData() {
   try {
     const items = await fsPromises.readFile('./listdata.json','utf-8');
-    listItems =  JSON.parse(items);
-    return listItems;
+    return items;
   } catch (error) {
     console.log(error);
   }

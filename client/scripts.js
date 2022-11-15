@@ -41,7 +41,7 @@ async function httpPost(e) {
     formAlert.innerText = "Please enter a valid input.";
     setTimeout(() => {
       formAlert.innerText = "";
-    }, 1500);
+    }, 2000);
     return;
   }
   theList[theList.length] = input.value;
@@ -55,7 +55,7 @@ async function httpDelete(e) {
     formAlert.innerText = "Please enter a valid input.";
     setTimeout(() => {
       formAlert.innerText = "";
-    }, 1500);
+    }, 2000);
     return;
   }
   theListOrigLength = theList.length;
@@ -66,9 +66,11 @@ async function httpDelete(e) {
     }
   }
   if (theListOrigLength == theList.length) {
+    formAlert.innerText = "The value you entered does not exist. Please try again.";
+    input.value = "";
     setTimeout(() => {
-      formAlert.innerText = "The value you entered does not exist. Please try again.";
-    }, 1500);
+      formAlert.innerText = "";
+    }, 2000);
     return;
   }
   await WriteList();
