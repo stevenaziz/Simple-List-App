@@ -25,23 +25,56 @@ function ShowList() {
 }
 
 async function GetList() {
-  theList = await http.get("/api").json();
-  WriteList();
+  theList = await http.get("/api");
+  ShowList();
 }
 
 async function WriteList() {
+  await http.post("/api", theList);
   ShowList();
 }
 
 /* Listener Functions */
 async function httpPost(e) {
-  await http.post("/api", input.value)
+  e.preventDefault();
+  if (input.value == "") {
+    formAlert.innerText = "Please enter a valid input.";
+    setTimeout(() => {
+      formAlert.innerText = "";
+    }, 2000);
+    return;
+  }
   theList[theList.length] = input.value;
-  WriteList();
+  await WriteList();
+  input.value = "";
 }
 
-function httpDelete(e) {
-
+async function httpDelete(e) {
+  e.preventDefault();
+  if (input.value == "") {
+    formAlert.innerText = "Please enter a valid input.";
+    setTimeout(() => {
+      formAlert.innerText = "";
+    }, 2000);
+    return;
+  }
+  theListOrigLength = theList.length;
+  for (let i = 0; i < theList.length; i++) {
+    if (theList[i] == input.value) {
+      theList.splice(i, 1);
+      i--;
+    }
+  }
+  if (theListOrigLength == theList.length) {
+    formAlert.innerText = "The value you entered does not exist. Please try again.";
+    input.value = "";
+    setTimeout(() => {
+      formAlert.innerText = "";
+    }, 2000);
+    return;
+  }
+  await WriteList();
+  input.value = "";
 }
 
 // Loading functions
