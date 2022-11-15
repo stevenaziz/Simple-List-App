@@ -26,28 +26,53 @@ function ShowList() {
 
 async function GetList() {
   theList = await http.get("/api");
+  ShowList();
 }
 
-function WriteList() {
+async function WriteList() {
+  await http.post("/api", theList);
   ShowList();
 }
 
 /* Listener Functions */
 async function httpPost(e) {
+  e.preventDefault();
   if (input.value == "") {
     formAlert.innerText = "Please enter a valid input.";
     setTimeout(() => {
       formAlert.innerText = "";
-    }, 3000);
+    }, 1500);
     return;
   }
-  await http.post("/api", input.value)
   theList[theList.length] = input.value;
-  WriteList();
+  await WriteList();
+  input.value = "";
 }
 
-function httpDelete(e) {
-
+async function httpDelete(e) {
+  e.preventDefault();
+  if (input.value == "") {
+    formAlert.innerText = "Please enter a valid input.";
+    setTimeout(() => {
+      formAlert.innerText = "";
+    }, 1500);
+    return;
+  }
+  theListOrigLength = theList.length;
+  for (let i = 0; i < theList.length; i++) {
+    if (theList[i] == input.value) {
+      theList.splice(i, 1);
+      i--;
+    }
+  }
+  if (theListOrigLength == theList.length) {
+    setTimeout(() => {
+      formAlert.innerText = "The value you entered does not exist. Please try again.";
+    }, 1500);
+    return;
+  }
+  await WriteList();
+  input.value = "";
 }
 
 // Loading functions
