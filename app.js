@@ -11,16 +11,12 @@ app.use(express.static("./Client"));
 app.use(express.json());
 
 app.get("/api", async (req,res) => {
-  const data = await fm.ReadData;
-  res.status(200);
-  res.write(JSON.stringify(data));
-  res.send();
+  const data = await fm.ReadData();
+  res.status(200).send(data);
 })
 
 app.post("/api", async (req,res) => {
-  const data = await fm.ReadData;
-  data[data.length] = JSON.parse(req.body);
-  fm.WriteData(data);
+  await fm.WriteData(JSON.stringify(req.body));
   res.status(200).send();
 })
 
