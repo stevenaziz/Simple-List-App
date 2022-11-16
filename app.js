@@ -18,7 +18,7 @@ app.get("/api", async (req,res) => {
 })
 
 
-// Use filemgr to write the JSON-stringified data to the JSON file and send success status to client
+// Use filemgr to write the JSON-stringified data to the file; upon completion, send success status to client
 app.post("/api", async (req,res) => {
   await fm.WriteData(JSON.stringify(req.body));
   res.status(200).send();
